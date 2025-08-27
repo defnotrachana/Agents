@@ -1,0 +1,745 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Requirement already satisfied: python-dotenv in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (1.0.1)\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "\n",
+      "[notice] A new release of pip is available: 24.2 -> 24.3.1\n",
+      "[notice] To update, run: python.exe -m pip install --upgrade pip\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Requirement already satisfied: llama-index in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (0.12.8)\n",
+      "Requirement already satisfied: llama-index-agent-openai<0.5.0,>=0.4.0 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index) (0.4.1)\n",
+      "Requirement already satisfied: llama-index-cli<0.5.0,>=0.4.0 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index) (0.4.0)\n",
+      "Requirement already satisfied: llama-index-core<0.13.0,>=0.12.8 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index) (0.12.8)\n",
+      "Requirement already satisfied: llama-index-embeddings-openai<0.4.0,>=0.3.0 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index) (0.3.1)\n",
+      "Requirement already satisfied: llama-index-indices-managed-llama-cloud>=0.4.0 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index) (0.6.3)\n",
+      "Requirement already satisfied: llama-index-llms-openai<0.4.0,>=0.3.0 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index) (0.3.12)\n",
+      "Requirement already satisfied: llama-index-multi-modal-llms-openai<0.5.0,>=0.4.0 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index) (0.4.1)\n",
+      "Requirement already satisfied: llama-index-program-openai<0.4.0,>=0.3.0 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index) (0.3.1)\n",
+      "Requirement already satisfied: llama-index-question-gen-openai<0.4.0,>=0.3.0 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index) (0.3.0)\n",
+      "Requirement already satisfied: llama-index-readers-file<0.5.0,>=0.4.0 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index) (0.4.1)\n",
+      "Requirement already satisfied: llama-index-readers-llama-parse>=0.4.0 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index) (0.4.0)\n",
+      "Requirement already satisfied: nltk>3.8.1 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index) (3.9.1)\n",
+      "Requirement already satisfied: openai>=1.14.0 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index-agent-openai<0.5.0,>=0.4.0->llama-index) (1.58.1)\n",
+      "Requirement already satisfied: PyYAML>=6.0.1 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index-core<0.13.0,>=0.12.8->llama-index) (6.0.2)\n",
+      "Requirement already satisfied: SQLAlchemy>=1.4.49 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from SQLAlchemy[asyncio]>=1.4.49->llama-index-core<0.13.0,>=0.12.8->llama-index) (2.0.36)\n",
+      "Requirement already satisfied: aiohttp<4.0.0,>=3.8.6 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index-core<0.13.0,>=0.12.8->llama-index) (3.11.10)\n",
+      "Requirement already satisfied: dataclasses-json in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index-core<0.13.0,>=0.12.8->llama-index) (0.6.7)\n",
+      "Requirement already satisfied: deprecated>=1.2.9.3 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index-core<0.13.0,>=0.12.8->llama-index) (1.2.15)\n",
+      "Requirement already satisfied: dirtyjson<2.0.0,>=1.0.8 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index-core<0.13.0,>=0.12.8->llama-index) (1.0.8)\n",
+      "Requirement already satisfied: filetype<2.0.0,>=1.2.0 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index-core<0.13.0,>=0.12.8->llama-index) (1.2.0)\n",
+      "Requirement already satisfied: fsspec>=2023.5.0 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index-core<0.13.0,>=0.12.8->llama-index) (2024.12.0)\n",
+      "Requirement already satisfied: httpx in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index-core<0.13.0,>=0.12.8->llama-index) (0.28.1)\n",
+      "Requirement already satisfied: nest-asyncio<2.0.0,>=1.5.8 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index-core<0.13.0,>=0.12.8->llama-index) (1.6.0)\n",
+      "Requirement already satisfied: networkx>=3.0 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index-core<0.13.0,>=0.12.8->llama-index) (3.4.2)\n",
+      "Requirement already satisfied: numpy in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index-core<0.13.0,>=0.12.8->llama-index) (2.0.2)\n",
+      "Requirement already satisfied: pillow>=9.0.0 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index-core<0.13.0,>=0.12.8->llama-index) (11.0.0)\n",
+      "Requirement already satisfied: pydantic>=2.8.0 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index-core<0.13.0,>=0.12.8->llama-index) (2.9.2)\n",
+      "Requirement already satisfied: requests>=2.31.0 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index-core<0.13.0,>=0.12.8->llama-index) (2.32.3)\n",
+      "Requirement already satisfied: tenacity!=8.4.0,<10.0.0,>=8.2.0 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index-core<0.13.0,>=0.12.8->llama-index) (9.0.0)\n",
+      "Requirement already satisfied: tiktoken>=0.3.3 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index-core<0.13.0,>=0.12.8->llama-index) (0.8.0)\n",
+      "Requirement already satisfied: tqdm<5.0.0,>=4.66.1 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index-core<0.13.0,>=0.12.8->llama-index) (4.66.5)\n",
+      "Requirement already satisfied: typing-extensions>=4.5.0 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index-core<0.13.0,>=0.12.8->llama-index) (4.12.2)\n",
+      "Requirement already satisfied: typing-inspect>=0.8.0 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index-core<0.13.0,>=0.12.8->llama-index) (0.9.0)\n",
+      "Requirement already satisfied: wrapt in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index-core<0.13.0,>=0.12.8->llama-index) (1.16.0)\n",
+      "Requirement already satisfied: llama-cloud>=0.1.5 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index-indices-managed-llama-cloud>=0.4.0->llama-index) (0.1.7)\n",
+      "Requirement already satisfied: beautifulsoup4<5.0.0,>=4.12.3 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index-readers-file<0.5.0,>=0.4.0->llama-index) (4.12.3)\n",
+      "Requirement already satisfied: pandas in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index-readers-file<0.5.0,>=0.4.0->llama-index) (2.2.3)\n",
+      "Requirement already satisfied: pypdf<6.0.0,>=5.1.0 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index-readers-file<0.5.0,>=0.4.0->llama-index) (5.1.0)\n",
+      "Requirement already satisfied: striprtf<0.0.27,>=0.0.26 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index-readers-file<0.5.0,>=0.4.0->llama-index) (0.0.26)\n",
+      "Requirement already satisfied: llama-parse>=0.5.0 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index-readers-llama-parse>=0.4.0->llama-index) (0.5.18)\n",
+      "Requirement already satisfied: click in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from nltk>3.8.1->llama-index) (8.1.7)\n",
+      "Requirement already satisfied: joblib in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from nltk>3.8.1->llama-index) (1.4.2)\n",
+      "Requirement already satisfied: regex>=2021.8.3 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from nltk>3.8.1->llama-index) (2024.11.6)\n",
+      "Requirement already satisfied: aiohappyeyeballs>=2.3.0 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from aiohttp<4.0.0,>=3.8.6->llama-index-core<0.13.0,>=0.12.8->llama-index) (2.4.4)\n",
+      "Requirement already satisfied: aiosignal>=1.1.2 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from aiohttp<4.0.0,>=3.8.6->llama-index-core<0.13.0,>=0.12.8->llama-index) (1.3.1)\n",
+      "Requirement already satisfied: attrs>=17.3.0 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from aiohttp<4.0.0,>=3.8.6->llama-index-core<0.13.0,>=0.12.8->llama-index) (24.2.0)\n",
+      "Requirement already satisfied: frozenlist>=1.1.1 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from aiohttp<4.0.0,>=3.8.6->llama-index-core<0.13.0,>=0.12.8->llama-index) (1.5.0)\n",
+      "Requirement already satisfied: multidict<7.0,>=4.5 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from aiohttp<4.0.0,>=3.8.6->llama-index-core<0.13.0,>=0.12.8->llama-index) (6.1.0)\n",
+      "Requirement already satisfied: propcache>=0.2.0 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from aiohttp<4.0.0,>=3.8.6->llama-index-core<0.13.0,>=0.12.8->llama-index) (0.2.1)\n",
+      "Requirement already satisfied: yarl<2.0,>=1.17.0 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from aiohttp<4.0.0,>=3.8.6->llama-index-core<0.13.0,>=0.12.8->llama-index) (1.18.3)\n",
+      "Requirement already satisfied: soupsieve>1.2 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from beautifulsoup4<5.0.0,>=4.12.3->llama-index-readers-file<0.5.0,>=0.4.0->llama-index) (2.6)\n",
+      "Requirement already satisfied: certifi<2025.0.0,>=2024.7.4 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-cloud>=0.1.5->llama-index-indices-managed-llama-cloud>=0.4.0->llama-index) (2024.8.30)\n",
+      "Requirement already satisfied: anyio in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from httpx->llama-index-core<0.13.0,>=0.12.8->llama-index) (4.7.0)\n",
+      "Requirement already satisfied: httpcore==1.* in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from httpx->llama-index-core<0.13.0,>=0.12.8->llama-index) (1.0.7)\n",
+      "Requirement already satisfied: idna in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from httpx->llama-index-core<0.13.0,>=0.12.8->llama-index) (3.10)\n",
+      "Requirement already satisfied: h11<0.15,>=0.13 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from httpcore==1.*->httpx->llama-index-core<0.13.0,>=0.12.8->llama-index) (0.14.0)\n",
+      "Requirement already satisfied: colorama in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from click->nltk>3.8.1->llama-index) (0.4.6)\n",
+      "Requirement already satisfied: distro<2,>=1.7.0 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from openai>=1.14.0->llama-index-agent-openai<0.5.0,>=0.4.0->llama-index) (1.9.0)\n",
+      "Requirement already satisfied: jiter<1,>=0.4.0 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from openai>=1.14.0->llama-index-agent-openai<0.5.0,>=0.4.0->llama-index) (0.8.2)\n",
+      "Requirement already satisfied: sniffio in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from openai>=1.14.0->llama-index-agent-openai<0.5.0,>=0.4.0->llama-index) (1.3.1)\n",
+      "Requirement already satisfied: annotated-types>=0.6.0 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from pydantic>=2.8.0->llama-index-core<0.13.0,>=0.12.8->llama-index) (0.7.0)\n",
+      "Requirement already satisfied: pydantic-core==2.23.4 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from pydantic>=2.8.0->llama-index-core<0.13.0,>=0.12.8->llama-index) (2.23.4)\n",
+      "Requirement already satisfied: charset-normalizer<4,>=2 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from requests>=2.31.0->llama-index-core<0.13.0,>=0.12.8->llama-index) (2.0.12)\n",
+      "Requirement already satisfied: urllib3<3,>=1.21.1 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from requests>=2.31.0->llama-index-core<0.13.0,>=0.12.8->llama-index) (1.26.20)\n",
+      "Requirement already satisfied: greenlet!=0.4.17 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from SQLAlchemy>=1.4.49->SQLAlchemy[asyncio]>=1.4.49->llama-index-core<0.13.0,>=0.12.8->llama-index) (3.1.1)\n",
+      "Requirement already satisfied: mypy-extensions>=0.3.0 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from typing-inspect>=0.8.0->llama-index-core<0.13.0,>=0.12.8->llama-index) (1.0.0)\n",
+      "Requirement already satisfied: marshmallow<4.0.0,>=3.18.0 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from dataclasses-json->llama-index-core<0.13.0,>=0.12.8->llama-index) (3.23.1)\n",
+      "Requirement already satisfied: python-dateutil>=2.8.2 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from pandas->llama-index-readers-file<0.5.0,>=0.4.0->llama-index) (2.9.0.post0)\n",
+      "Requirement already satisfied: pytz>=2020.1 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from pandas->llama-index-readers-file<0.5.0,>=0.4.0->llama-index) (2024.2)\n",
+      "Requirement already satisfied: tzdata>=2022.7 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from pandas->llama-index-readers-file<0.5.0,>=0.4.0->llama-index) (2024.2)\n",
+      "Requirement already satisfied: packaging>=17.0 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from marshmallow<4.0.0,>=3.18.0->dataclasses-json->llama-index-core<0.13.0,>=0.12.8->llama-index) (24.1)\n",
+      "Requirement already satisfied: six>=1.5 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from python-dateutil>=2.8.2->pandas->llama-index-readers-file<0.5.0,>=0.4.0->llama-index) (1.16.0)\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "\n",
+      "[notice] A new release of pip is available: 24.2 -> 24.3.1\n",
+      "[notice] To update, run: python.exe -m pip install --upgrade pip\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Requirement already satisfied: llama-index-llms-openai in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (0.3.12)\n",
+      "Requirement already satisfied: llama-index-core<0.13.0,>=0.12.4 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index-llms-openai) (0.12.8)\n",
+      "Requirement already satisfied: openai<2.0.0,>=1.58.1 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index-llms-openai) (1.58.1)\n",
+      "Requirement already satisfied: PyYAML>=6.0.1 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index-core<0.13.0,>=0.12.4->llama-index-llms-openai) (6.0.2)\n",
+      "Requirement already satisfied: SQLAlchemy>=1.4.49 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from SQLAlchemy[asyncio]>=1.4.49->llama-index-core<0.13.0,>=0.12.4->llama-index-llms-openai) (2.0.36)\n",
+      "Requirement already satisfied: aiohttp<4.0.0,>=3.8.6 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index-core<0.13.0,>=0.12.4->llama-index-llms-openai) (3.11.10)\n",
+      "Requirement already satisfied: dataclasses-json in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index-core<0.13.0,>=0.12.4->llama-index-llms-openai) (0.6.7)\n",
+      "Requirement already satisfied: deprecated>=1.2.9.3 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index-core<0.13.0,>=0.12.4->llama-index-llms-openai) (1.2.15)\n",
+      "Requirement already satisfied: dirtyjson<2.0.0,>=1.0.8 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index-core<0.13.0,>=0.12.4->llama-index-llms-openai) (1.0.8)\n",
+      "Requirement already satisfied: filetype<2.0.0,>=1.2.0 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index-core<0.13.0,>=0.12.4->llama-index-llms-openai) (1.2.0)\n",
+      "Requirement already satisfied: fsspec>=2023.5.0 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index-core<0.13.0,>=0.12.4->llama-index-llms-openai) (2024.12.0)\n",
+      "Requirement already satisfied: httpx in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index-core<0.13.0,>=0.12.4->llama-index-llms-openai) (0.28.1)\n",
+      "Requirement already satisfied: nest-asyncio<2.0.0,>=1.5.8 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index-core<0.13.0,>=0.12.4->llama-index-llms-openai) (1.6.0)\n",
+      "Requirement already satisfied: networkx>=3.0 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index-core<0.13.0,>=0.12.4->llama-index-llms-openai) (3.4.2)\n",
+      "Requirement already satisfied: nltk>3.8.1 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index-core<0.13.0,>=0.12.4->llama-index-llms-openai) (3.9.1)\n",
+      "Requirement already satisfied: numpy in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index-core<0.13.0,>=0.12.4->llama-index-llms-openai) (2.0.2)\n",
+      "Requirement already satisfied: pillow>=9.0.0 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index-core<0.13.0,>=0.12.4->llama-index-llms-openai) (11.0.0)\n",
+      "Requirement already satisfied: pydantic>=2.8.0 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index-core<0.13.0,>=0.12.4->llama-index-llms-openai) (2.9.2)\n",
+      "Requirement already satisfied: requests>=2.31.0 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index-core<0.13.0,>=0.12.4->llama-index-llms-openai) (2.32.3)\n",
+      "Requirement already satisfied: tenacity!=8.4.0,<10.0.0,>=8.2.0 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index-core<0.13.0,>=0.12.4->llama-index-llms-openai) (9.0.0)\n",
+      "Requirement already satisfied: tiktoken>=0.3.3 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index-core<0.13.0,>=0.12.4->llama-index-llms-openai) (0.8.0)\n",
+      "Requirement already satisfied: tqdm<5.0.0,>=4.66.1 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index-core<0.13.0,>=0.12.4->llama-index-llms-openai) (4.66.5)\n",
+      "Requirement already satisfied: typing-extensions>=4.5.0 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index-core<0.13.0,>=0.12.4->llama-index-llms-openai) (4.12.2)\n",
+      "Requirement already satisfied: typing-inspect>=0.8.0 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index-core<0.13.0,>=0.12.4->llama-index-llms-openai) (0.9.0)\n",
+      "Requirement already satisfied: wrapt in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index-core<0.13.0,>=0.12.4->llama-index-llms-openai) (1.16.0)\n",
+      "Requirement already satisfied: anyio<5,>=3.5.0 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from openai<2.0.0,>=1.58.1->llama-index-llms-openai) (4.7.0)\n",
+      "Requirement already satisfied: distro<2,>=1.7.0 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from openai<2.0.0,>=1.58.1->llama-index-llms-openai) (1.9.0)\n",
+      "Requirement already satisfied: jiter<1,>=0.4.0 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from openai<2.0.0,>=1.58.1->llama-index-llms-openai) (0.8.2)\n",
+      "Requirement already satisfied: sniffio in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from openai<2.0.0,>=1.58.1->llama-index-llms-openai) (1.3.1)\n",
+      "Requirement already satisfied: aiohappyeyeballs>=2.3.0 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from aiohttp<4.0.0,>=3.8.6->llama-index-core<0.13.0,>=0.12.4->llama-index-llms-openai) (2.4.4)\n",
+      "Requirement already satisfied: aiosignal>=1.1.2 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from aiohttp<4.0.0,>=3.8.6->llama-index-core<0.13.0,>=0.12.4->llama-index-llms-openai) (1.3.1)\n",
+      "Requirement already satisfied: attrs>=17.3.0 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from aiohttp<4.0.0,>=3.8.6->llama-index-core<0.13.0,>=0.12.4->llama-index-llms-openai) (24.2.0)\n",
+      "Requirement already satisfied: frozenlist>=1.1.1 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from aiohttp<4.0.0,>=3.8.6->llama-index-core<0.13.0,>=0.12.4->llama-index-llms-openai) (1.5.0)\n",
+      "Requirement already satisfied: multidict<7.0,>=4.5 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from aiohttp<4.0.0,>=3.8.6->llama-index-core<0.13.0,>=0.12.4->llama-index-llms-openai) (6.1.0)\n",
+      "Requirement already satisfied: propcache>=0.2.0 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from aiohttp<4.0.0,>=3.8.6->llama-index-core<0.13.0,>=0.12.4->llama-index-llms-openai) (0.2.1)\n",
+      "Requirement already satisfied: yarl<2.0,>=1.17.0 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from aiohttp<4.0.0,>=3.8.6->llama-index-core<0.13.0,>=0.12.4->llama-index-llms-openai) (1.18.3)\n",
+      "Requirement already satisfied: idna>=2.8 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from anyio<5,>=3.5.0->openai<2.0.0,>=1.58.1->llama-index-llms-openai) (3.10)\n",
+      "Requirement already satisfied: certifi in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from httpx->llama-index-core<0.13.0,>=0.12.4->llama-index-llms-openai) (2024.8.30)\n",
+      "Requirement already satisfied: httpcore==1.* in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from httpx->llama-index-core<0.13.0,>=0.12.4->llama-index-llms-openai) (1.0.7)\n",
+      "Requirement already satisfied: h11<0.15,>=0.13 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from httpcore==1.*->httpx->llama-index-core<0.13.0,>=0.12.4->llama-index-llms-openai) (0.14.0)\n",
+      "Requirement already satisfied: click in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from nltk>3.8.1->llama-index-core<0.13.0,>=0.12.4->llama-index-llms-openai) (8.1.7)\n",
+      "Requirement already satisfied: joblib in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from nltk>3.8.1->llama-index-core<0.13.0,>=0.12.4->llama-index-llms-openai) (1.4.2)\n",
+      "Requirement already satisfied: regex>=2021.8.3 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from nltk>3.8.1->llama-index-core<0.13.0,>=0.12.4->llama-index-llms-openai) (2024.11.6)\n",
+      "Requirement already satisfied: annotated-types>=0.6.0 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from pydantic>=2.8.0->llama-index-core<0.13.0,>=0.12.4->llama-index-llms-openai) (0.7.0)\n",
+      "Requirement already satisfied: pydantic-core==2.23.4 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from pydantic>=2.8.0->llama-index-core<0.13.0,>=0.12.4->llama-index-llms-openai) (2.23.4)\n",
+      "Requirement already satisfied: charset-normalizer<4,>=2 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from requests>=2.31.0->llama-index-core<0.13.0,>=0.12.4->llama-index-llms-openai) (2.0.12)\n",
+      "Requirement already satisfied: urllib3<3,>=1.21.1 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from requests>=2.31.0->llama-index-core<0.13.0,>=0.12.4->llama-index-llms-openai) (1.26.20)\n",
+      "Requirement already satisfied: greenlet!=0.4.17 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from SQLAlchemy>=1.4.49->SQLAlchemy[asyncio]>=1.4.49->llama-index-core<0.13.0,>=0.12.4->llama-index-llms-openai) (3.1.1)\n",
+      "Requirement already satisfied: colorama in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from tqdm<5.0.0,>=4.66.1->llama-index-core<0.13.0,>=0.12.4->llama-index-llms-openai) (0.4.6)\n",
+      "Requirement already satisfied: mypy-extensions>=0.3.0 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from typing-inspect>=0.8.0->llama-index-core<0.13.0,>=0.12.4->llama-index-llms-openai) (1.0.0)\n",
+      "Requirement already satisfied: marshmallow<4.0.0,>=3.18.0 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from dataclasses-json->llama-index-core<0.13.0,>=0.12.4->llama-index-llms-openai) (3.23.1)\n",
+      "Requirement already satisfied: packaging>=17.0 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from marshmallow<4.0.0,>=3.18.0->dataclasses-json->llama-index-core<0.13.0,>=0.12.4->llama-index-llms-openai) (24.1)\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "\n",
+      "[notice] A new release of pip is available: 24.2 -> 24.3.1\n",
+      "[notice] To update, run: python.exe -m pip install --upgrade pip\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Requirement already satisfied: llama-index-embeddings-openai in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (0.3.1)\n",
+      "Requirement already satisfied: llama-index-core<0.13.0,>=0.12.0 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index-embeddings-openai) (0.12.8)\n",
+      "Requirement already satisfied: openai>=1.1.0 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index-embeddings-openai) (1.58.1)\n",
+      "Requirement already satisfied: PyYAML>=6.0.1 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index-core<0.13.0,>=0.12.0->llama-index-embeddings-openai) (6.0.2)\n",
+      "Requirement already satisfied: SQLAlchemy>=1.4.49 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from SQLAlchemy[asyncio]>=1.4.49->llama-index-core<0.13.0,>=0.12.0->llama-index-embeddings-openai) (2.0.36)\n",
+      "Requirement already satisfied: aiohttp<4.0.0,>=3.8.6 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index-core<0.13.0,>=0.12.0->llama-index-embeddings-openai) (3.11.10)\n",
+      "Requirement already satisfied: dataclasses-json in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index-core<0.13.0,>=0.12.0->llama-index-embeddings-openai) (0.6.7)\n",
+      "Requirement already satisfied: deprecated>=1.2.9.3 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index-core<0.13.0,>=0.12.0->llama-index-embeddings-openai) (1.2.15)\n",
+      "Requirement already satisfied: dirtyjson<2.0.0,>=1.0.8 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index-core<0.13.0,>=0.12.0->llama-index-embeddings-openai) (1.0.8)\n",
+      "Requirement already satisfied: filetype<2.0.0,>=1.2.0 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index-core<0.13.0,>=0.12.0->llama-index-embeddings-openai) (1.2.0)\n",
+      "Requirement already satisfied: fsspec>=2023.5.0 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index-core<0.13.0,>=0.12.0->llama-index-embeddings-openai) (2024.12.0)\n",
+      "Requirement already satisfied: httpx in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index-core<0.13.0,>=0.12.0->llama-index-embeddings-openai) (0.28.1)\n",
+      "Requirement already satisfied: nest-asyncio<2.0.0,>=1.5.8 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index-core<0.13.0,>=0.12.0->llama-index-embeddings-openai) (1.6.0)\n",
+      "Requirement already satisfied: networkx>=3.0 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index-core<0.13.0,>=0.12.0->llama-index-embeddings-openai) (3.4.2)\n",
+      "Requirement already satisfied: nltk>3.8.1 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index-core<0.13.0,>=0.12.0->llama-index-embeddings-openai) (3.9.1)\n",
+      "Requirement already satisfied: numpy in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index-core<0.13.0,>=0.12.0->llama-index-embeddings-openai) (2.0.2)\n",
+      "Requirement already satisfied: pillow>=9.0.0 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index-core<0.13.0,>=0.12.0->llama-index-embeddings-openai) (11.0.0)\n",
+      "Requirement already satisfied: pydantic>=2.8.0 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index-core<0.13.0,>=0.12.0->llama-index-embeddings-openai) (2.9.2)\n",
+      "Requirement already satisfied: requests>=2.31.0 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index-core<0.13.0,>=0.12.0->llama-index-embeddings-openai) (2.32.3)\n",
+      "Requirement already satisfied: tenacity!=8.4.0,<10.0.0,>=8.2.0 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index-core<0.13.0,>=0.12.0->llama-index-embeddings-openai) (9.0.0)\n",
+      "Requirement already satisfied: tiktoken>=0.3.3 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index-core<0.13.0,>=0.12.0->llama-index-embeddings-openai) (0.8.0)\n",
+      "Requirement already satisfied: tqdm<5.0.0,>=4.66.1 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index-core<0.13.0,>=0.12.0->llama-index-embeddings-openai) (4.66.5)\n",
+      "Requirement already satisfied: typing-extensions>=4.5.0 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index-core<0.13.0,>=0.12.0->llama-index-embeddings-openai) (4.12.2)\n",
+      "Requirement already satisfied: typing-inspect>=0.8.0 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index-core<0.13.0,>=0.12.0->llama-index-embeddings-openai) (0.9.0)\n",
+      "Requirement already satisfied: wrapt in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from llama-index-core<0.13.0,>=0.12.0->llama-index-embeddings-openai) (1.16.0)\n",
+      "Requirement already satisfied: anyio<5,>=3.5.0 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from openai>=1.1.0->llama-index-embeddings-openai) (4.7.0)\n",
+      "Requirement already satisfied: distro<2,>=1.7.0 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from openai>=1.1.0->llama-index-embeddings-openai) (1.9.0)\n",
+      "Requirement already satisfied: jiter<1,>=0.4.0 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from openai>=1.1.0->llama-index-embeddings-openai) (0.8.2)\n",
+      "Requirement already satisfied: sniffio in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from openai>=1.1.0->llama-index-embeddings-openai) (1.3.1)\n",
+      "Requirement already satisfied: aiohappyeyeballs>=2.3.0 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from aiohttp<4.0.0,>=3.8.6->llama-index-core<0.13.0,>=0.12.0->llama-index-embeddings-openai) (2.4.4)\n",
+      "Requirement already satisfied: aiosignal>=1.1.2 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from aiohttp<4.0.0,>=3.8.6->llama-index-core<0.13.0,>=0.12.0->llama-index-embeddings-openai) (1.3.1)\n",
+      "Requirement already satisfied: attrs>=17.3.0 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from aiohttp<4.0.0,>=3.8.6->llama-index-core<0.13.0,>=0.12.0->llama-index-embeddings-openai) (24.2.0)\n",
+      "Requirement already satisfied: frozenlist>=1.1.1 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from aiohttp<4.0.0,>=3.8.6->llama-index-core<0.13.0,>=0.12.0->llama-index-embeddings-openai) (1.5.0)\n",
+      "Requirement already satisfied: multidict<7.0,>=4.5 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from aiohttp<4.0.0,>=3.8.6->llama-index-core<0.13.0,>=0.12.0->llama-index-embeddings-openai) (6.1.0)\n",
+      "Requirement already satisfied: propcache>=0.2.0 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from aiohttp<4.0.0,>=3.8.6->llama-index-core<0.13.0,>=0.12.0->llama-index-embeddings-openai) (0.2.1)\n",
+      "Requirement already satisfied: yarl<2.0,>=1.17.0 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from aiohttp<4.0.0,>=3.8.6->llama-index-core<0.13.0,>=0.12.0->llama-index-embeddings-openai) (1.18.3)\n",
+      "Requirement already satisfied: idna>=2.8 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from anyio<5,>=3.5.0->openai>=1.1.0->llama-index-embeddings-openai) (3.10)\n",
+      "Requirement already satisfied: certifi in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from httpx->llama-index-core<0.13.0,>=0.12.0->llama-index-embeddings-openai) (2024.8.30)\n",
+      "Requirement already satisfied: httpcore==1.* in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from httpx->llama-index-core<0.13.0,>=0.12.0->llama-index-embeddings-openai) (1.0.7)\n",
+      "Requirement already satisfied: h11<0.15,>=0.13 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from httpcore==1.*->httpx->llama-index-core<0.13.0,>=0.12.0->llama-index-embeddings-openai) (0.14.0)\n",
+      "Requirement already satisfied: click in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from nltk>3.8.1->llama-index-core<0.13.0,>=0.12.0->llama-index-embeddings-openai) (8.1.7)\n",
+      "Requirement already satisfied: joblib in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from nltk>3.8.1->llama-index-core<0.13.0,>=0.12.0->llama-index-embeddings-openai) (1.4.2)\n",
+      "Requirement already satisfied: regex>=2021.8.3 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from nltk>3.8.1->llama-index-core<0.13.0,>=0.12.0->llama-index-embeddings-openai) (2024.11.6)\n",
+      "Requirement already satisfied: annotated-types>=0.6.0 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from pydantic>=2.8.0->llama-index-core<0.13.0,>=0.12.0->llama-index-embeddings-openai) (0.7.0)\n",
+      "Requirement already satisfied: pydantic-core==2.23.4 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from pydantic>=2.8.0->llama-index-core<0.13.0,>=0.12.0->llama-index-embeddings-openai) (2.23.4)\n",
+      "Requirement already satisfied: charset-normalizer<4,>=2 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from requests>=2.31.0->llama-index-core<0.13.0,>=0.12.0->llama-index-embeddings-openai) (2.0.12)\n",
+      "Requirement already satisfied: urllib3<3,>=1.21.1 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from requests>=2.31.0->llama-index-core<0.13.0,>=0.12.0->llama-index-embeddings-openai) (1.26.20)\n",
+      "Requirement already satisfied: greenlet!=0.4.17 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from SQLAlchemy>=1.4.49->SQLAlchemy[asyncio]>=1.4.49->llama-index-core<0.13.0,>=0.12.0->llama-index-embeddings-openai) (3.1.1)\n",
+      "Requirement already satisfied: colorama in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from tqdm<5.0.0,>=4.66.1->llama-index-core<0.13.0,>=0.12.0->llama-index-embeddings-openai) (0.4.6)\n",
+      "Requirement already satisfied: mypy-extensions>=0.3.0 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from typing-inspect>=0.8.0->llama-index-core<0.13.0,>=0.12.0->llama-index-embeddings-openai) (1.0.0)\n",
+      "Requirement already satisfied: marshmallow<4.0.0,>=3.18.0 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from dataclasses-json->llama-index-core<0.13.0,>=0.12.0->llama-index-embeddings-openai) (3.23.1)\n",
+      "Requirement already satisfied: packaging>=17.0 in c:\\users\\rachanaa\\.virtualenvs\\23102024-0vmrazk-\\lib\\site-packages (from marshmallow<4.0.0,>=3.18.0->dataclasses-json->llama-index-core<0.13.0,>=0.12.0->llama-index-embeddings-openai) (24.1)\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "\n",
+      "[notice] A new release of pip is available: 24.2 -> 24.3.1\n",
+      "[notice] To update, run: python.exe -m pip install --upgrade pip\n"
+     ]
+    }
+   ],
+   "source": [
+    "! py -m pip install --upgrade python-dotenv\n",
+    "! py -m pip install --upgrade llama-index\n",
+    "! py -m pip install --upgrade llama-index-llms-openai\n",
+    "! py -m pip install --upgrade llama-index-embeddings-openai"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Tool Calling\n",
+    "- tool calling enables LLMs to interact with external environments through a dynamic interface where tool calling not only helps choosing the appropriate tool but also infers necessary arguments for execution  \n",
+    "  \n",
+    "- In standard Rags, LLMS are mainly used for synthesis of information only.  \n",
+    "  \n",
+    "- Tool calling adds a layer of query understanding on top of a RAG pipeline, enables users to ask complex queries and get back more precise results"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import os\n",
+    "import nest_asyncio\n",
+    "\n",
+    "openai_api_key = \"sk-proj-72B-DvCjAWM0A\"\n",
+    "nest_asyncio.apply()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "#### Defining a Simple Tool"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "FunctionTool is a class used to wrap regular Python functions into tools that can be used within a larger system of framework.  \n",
+    "  \n",
+    "`add_tool = FunctionTool.from_defaults(fn=add)`: line wraps the add function inside the FunctionTool. add_tool can now be used as a tool within larger systems that expects tools, integrating them with query engines or workflows."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 17,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from llama_index.core.tools import FunctionTool\n",
+    "\n",
+    "def add(x:int, y:int) -> int:\n",
+    "    \"\"\"Add two integers and returns the result integer.\"\"\"\n",
+    "    return x + y\n",
+    "\n",
+    "def mystery(x:int, y:int) -> int:\n",
+    "    \"\"\"Mystery function that operates on top of 2 numbers\"\"\"\n",
+    "    return (x + y) * (x - y)\n",
+    "\n",
+    "add_tool = FunctionTool.from_defaults(fn=add)\n",
+    "mystery_tool = FunctionTool.from_defaults(fn=mystery)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "`response = llm.predict_and_call(...)`  \n",
+    "method used for generating a response based on the input query. The model will need to intepret this query and decide how to use the tools (add_tool and mystery_tool) to compute the response.  \n",
+    "  \n",
+    "`verbose` enables \"verbose output\". Meaning that in can display additional information or logs about the process, such as the intermediate steps the model takes when calling the tools or generating the final response."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 19,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "=== Calling Function ===\n",
+      "Calling function: add with args: {\"x\": 2, \"y\": 9}\n",
+      "=== Function Output ===\n",
+      "11\n",
+      "11\n"
+     ]
+    }
+   ],
+   "source": [
+    "from llama_index.llms.openai import OpenAI\n",
+    "llm = OpenAI(model=\"gpt-3.5-turbo\")\n",
+    "response = llm.predict_and_call(\n",
+    "    [add_tool, mystery_tool],\n",
+    "    \"Tell me the output of multiplying 2 and 9\",\n",
+    "    verbose = True\n",
+    ")\n",
+    "\n",
+    "print(str(response))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Defining an Auto-Retrieval Tool\n",
+    "\n",
+    "#### Load Data"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from llama_index.core import SimpleDirectoryReader\n",
+    "\n",
+    "# Load documents\n",
+    "documents = SimpleDirectoryReader(input_files=[\"Calendar - RACHANA ARAVINDAN - Outlook.pdf\"]).load_data()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [
+    {
+     "ename": "NameError",
+     "evalue": "name 'documents' is not defined",
+     "output_type": "error",
+     "traceback": [
+      "\u001b[1;31m---------------------------------------------------------------------------\u001b[0m",
+      "\u001b[1;31mNameError\u001b[0m                                 Traceback (most recent call last)",
+      "Cell \u001b[1;32mIn[1], line 4\u001b[0m\n\u001b[0;32m      1\u001b[0m \u001b[38;5;28;01mfrom\u001b[39;00m \u001b[38;5;21;01mllama_index\u001b[39;00m\u001b[38;5;21;01m.\u001b[39;00m\u001b[38;5;21;01mcore\u001b[39;00m\u001b[38;5;21;01m.\u001b[39;00m\u001b[38;5;21;01mnode_parser\u001b[39;00m \u001b[38;5;28;01mimport\u001b[39;00m SentenceSplitter\n\u001b[0;32m      3\u001b[0m splitter \u001b[38;5;241m=\u001b[39m SentenceSplitter(chunk_size\u001b[38;5;241m=\u001b[39m\u001b[38;5;241m1024\u001b[39m)\n\u001b[1;32m----> 4\u001b[0m nodes \u001b[38;5;241m=\u001b[39m splitter\u001b[38;5;241m.\u001b[39mget_nodes_from_documents(\u001b[43mdocuments\u001b[49m)\n",
+      "\u001b[1;31mNameError\u001b[0m: name 'documents' is not defined"
+     ]
+    }
+   ],
+   "source": [
+    "from llama_index.core.node_parser import SentenceSplitter\n",
+    "\n",
+    "splitter = SentenceSplitter(chunk_size=1024)\n",
+    "nodes = splitter.get_nodes_from_documents(documents)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "page_label: 1\n",
+      "file_name: Calendar - RACHANA ARAVINDAN - Outlook.pdf\n",
+      "file_path: Calendar - RACHANA ARAVINDAN - Outlook.pdf\n",
+      "file_type: application/pdf\n",
+      "file_size: 7240930\n",
+      "creation_date: 2024-12-24\n",
+      "last_modified_date: 2024-12-24\n",
+      "\n",
+      "December 2024\n",
+      "Calendar \n",
+      "Sunday, December 1, 2024\n",
+      "\"Commemoration Day - UAE Holiday\"\n",
+      "Sun 12/1/2024 (All day)\n",
+      "Location: \"Virtusa Holiday\"\n",
+      " \n",
+      "Monday, December 2, 2024\n",
+      "\"National Day | St Andew's Day - UAE | UK (Scotland) Holiday\"\n",
+      "Mon 12/2/2024 (All day)\n",
+      "Location: \"Virtusa Holiday\"\n",
+      " \n",
+      "Invite for GenAI Lead and Integration Engineer Training – Batch 1 (Attendance ismandatory)\n",
+      "Mon 12/2/2024 10:00 AM - 6:00 PM\n",
+      "Location: Apoorthi Hall, 2nd Floor, Foundation Building, NavalurOrganizer: Learning and DevelopmentRequired Attendees: Learning and Development <talentdevelopmentIndia@virtusa.com>; Sulaxman Kaja<skaja@virtusa.com>; Ravi Kumar Jagarlapudi <ravikumarjp@virtusa.com>; Krithika Senthil<krithikasenthil@virtusa.com>; Rishal Cheran <rishalcheran@virtusa.com>; Sudarshan Parthasarathy<sudarshanp@virtusa.com>; Dudekula Sameena <dsameena@virtusa.com>; Kaushik Selvaraju<kaushikselvaraju@virtusa.com>; RACHANA ARAVINDAN <rachanaa@virtusa.com>; Venkat Choudhary Ala<venkatchoudhary@virtusa.com>; Anuhya Chilumula <anuhyac@virtusa.com>; Digumarti Sai Shreeya<dsaishreeya@virtusa.com>; Prince Mohan <princemohan@virtusa.com>; Shubham Verma<ushubhamverma@virtusa.com>; Akshat Verma <akshatverma@virtusa.com>; Tamanna Jangid<tamannajangid@virtusa.com>; Shantam Sharma <shantamsharma@virtusa.com>; Nisha Shaw<nishashaw@virtusa.com>; Dasari Dharani <dasaridharani@virtusa.com>; Karamalapudi Muni Venkata Reshma<reshmakmv@virtusa.com>; Keerthana A <keerthanaanandh@virtusa.com>; Mahima Alwarsetty<mahimaalwarsetty@virtusa.com>; Saai Prasath R <saaiprasath@virtusa.com>; Vishal D <dvishal@virtusa.com>;Shalini Pugalenthi <shalinipugalenthi@virtusa.com>; Adarsh Dubey <adarshdubey@virtusa.com>; BUDDAHARSHA VARDHAN <harshabudda@virtusa.com>; Tellakula Charan Sai <tcharansai@virtusa.com>; MudduluruJashwanth <mjashwanth@virtusa.com>; Nivedita V P <niveditavp@virtusa.com>; Gopikrishnaa R<rgopikrishnaa@virtusa.com>; Avinash S <avinashsuresh@virtusa.com>; Swajan Ghosh<swajanghosh@virtusa.com>; Selina Claire I <selinaclaire@virtusa.com>; Rasika R <rrasika@virtusa.com>; DeepakPrakash Karadi <deepakprakashk@virtusa.com>; Venkataramanan Nagarajan <nvenkataramanan@virtusa.com>;Divya Bharathi S <sdivyabharathi@virtusa.com>; Madhavan Sampath <madhavansk@virtusa.com>; MohamedWasim K <mohamedwasimk@virtusa.com>;Optional Attendees: Ashwin Sadasiva Kumar Shyam Sunder <ashwins@virtusa.com>; Subakaran Ravindran<subakaranr@virtusa.com>; Neethan Ganapathy <neethanganapathi@virtusa.com>; Shoba Dhanraj<dshoba@virtusa.com>; Anvar Kumar Vellai <anvarkumar@virtusa.com>; Hemanth Kumar Bontipalli<hemanthkumarb@virtusa.com>; Selvam Sakthivel <ssakthivel@virtusa.com>; Isha Dewal<ishadewal@virtusa.com>;\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(nodes[0].get_content(metadata_mode=\"all\"))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "`VectorStoreIndex` is a data structure that organizes your documents (nodes) into a vectorstore.  \n",
+    "  \n",
+    "The index uses vector-based representations (like embeddings) of the documents to facilitate fast similarity searches based on the query. \n",
+    "  \n",
+    "`query_engine` converts the VectorStoreIndex into a query engine that can process user queries. `similarity_top_k = 5` parameter specifies that the query engine should return the top 5 most similar documents or nodes based on the input query."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from llama_index.core import VectorStoreIndex\n",
+    "\n",
+    "vector_index = VectorStoreIndex(nodes)\n",
+    "query_engine = vector_index.as_query_engine(similarity_top_k=5)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "`MetaDataFilters` apply filters to the queryengine. Here, it filters the documents based on metadata associated with it. `MetadataFilters.from_dicts` creates filters from a list of dictionaries. Each dictionary specifies a k-v pair for filtering. This filter ensures that only documents or nodes with \"page_label\" = 2 will be considered for querying. "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 15,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from llama_index.core.vector_stores import MetadataFilters\n",
+    "\n",
+    "query_engine = vector_index.as_query_engine(\n",
+    "    similarity_top_k=10,\n",
+    "    # filters=MetadataFilters.from_dicts(\n",
+    "    #     [\n",
+    "    #         {\"key\": \"page_label\", \"value\": \"2\"}\n",
+    "    #     ]\n",
+    "    # )\n",
+    ")\n",
+    "\n",
+    "response = query_engine.query(\n",
+    "    \"Are there any holidays in December and when?\",\n",
+    ")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 16,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "There are holidays in December. The holidays are as follows:\n",
+      "- Sunday, December 1, 2024: Commemoration Day - UAE Holiday\n",
+      "- Monday, December 2, 2024: National Day | St Andrew's Day - UAE | UK (Scotland) Holiday\n",
+      "- Monday, December 9, 2024: Immaculate Conception Holiday - ES Holiday\n",
+      "- Wednesday, December 18, 2024: National Day - QA Holiday\n",
+      "- Wednesday, December 25, 2024: Christmas|Christmas Day|Kerstdag(Christmas day)|Christmas Day public holiday - IN |USA,CA,MX,SL,CH,DE,SE,ES,PL,HU,IE,IE(Nothern),UK(Scotland),UK(Wales),SG,MY,HK,AU-TAS (Hobart),AU-ACT (Canberra),NZ|NL|AU-NSW(Sydney),AU-VIC (Melbourne) Holiday\n",
+      "- Thursday, December 26, 2024: Boxing Day| St.Stephen's Day| 2nd Day of Christmas| Tweede kerstdag(Boxing day)| The 1st weekday after Christmas Day - CA,IE(Nothern),UK(Scotland),UK(Wales),AU,NZ |CH,SE,IE| DE,PL,HU| NL| HK Holiday\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(str(response))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 18,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "{'page_label': '2', 'file_name': 'metagpt.pdf', 'file_path': 'metagpt.pdf', 'file_type': 'application/pdf', 'file_size': 16911937, 'creation_date': '2024-12-25', 'last_modified_date': '2024-12-25'}\n"
+     ]
+    }
+   ],
+   "source": [
+    "for n in response.source_nodes:\n",
+    "    print(n.metadata)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "#### Defining the Auto-Retrieval Tool"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 19,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from typing import List\n",
+    "from llama_index.core.vector_stores import FilterCondition\n",
+    "\n",
+    "def vector_query(query: str, page_numbers: List[str]) -> str:\n",
+    "    \"\"\"Perform a vector search over an index.\n",
+    "    query (str): the string query to be embedded.\n",
+    "    page_numbers (List[str]): Filter by set of pages. Leave BLANK if we want to perform a vector search\n",
+    "        over all pages. Otherwise, filter by the set of specified pages.\n",
+    "    \"\"\"\n",
+    "    \n",
+    "    metadata_dicts = [\n",
+    "        {\"key\": \"page_label\", \"value\": p} for p in page_numbers\n",
+    "    ]\n",
+    "    \n",
+    "    query_engine = vector_index.as_query_engine(\n",
+    "        similarity_top_k=2,\n",
+    "        filters = MetadataFilters.from_dicts(\n",
+    "            metadata_dicts,\n",
+    "            condition=FilterCondition.OR\n",
+    "        )\n",
+    "    )\n",
+    "    response = query_engine.query(query)\n",
+    "    return response\n",
+    "\n",
+    "vector_query_tool = FunctionTool.from_defaults(\n",
+    "    name = \"vector_tool\",\n",
+    "    fn = vector_query\n",
+    "    )"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "=== Calling Function ===\n",
+      "Calling function: vector_tool with args: {\"query\": \"high-level results of MetaGPT\", \"page_numbers\": [\"2\"]}\n",
+      "=== Function Output ===\n",
+      "MetaGPT achieves a new state-of-the-art (SoTA) in code generation benchmarks with 85.9% and 87.7% in Pass@1. It stands out in handling higher levels of software complexity and offering extensive functionality. In experimental evaluations, MetaGPT achieves a 100% task completion rate, demonstrating robustness and efficiency in design.\n"
+     ]
+    }
+   ],
+   "source": [
+    "llm = OpenAI(model = \"gpt-3.5-turbo\", temperature=0)\n",
+    "response = llm.predict_and_call(\n",
+    "    [vector_query_tool],\n",
+    "    \"How many meetings do I have on the 19th of December?\",\n",
+    "    verbose = True\n",
+    ")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 21,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "{'page_label': '2', 'file_name': 'metagpt.pdf', 'file_path': 'metagpt.pdf', 'file_type': 'application/pdf', 'file_size': 16911937, 'creation_date': '2024-12-25', 'last_modified_date': '2024-12-25'}\n"
+     ]
+    }
+   ],
+   "source": [
+    "for n in response.source_nodes:\n",
+    "    print(n.metadata)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "#### Adding more tools"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from llama_index.core import SummaryIndex\n",
+    "from llama_index.core.tools import QueryEngineTool\n",
+    "\n",
+    "summary_index = SummaryIndex(nodes)\n",
+    "summary_query_engine = summary_index.as_query_engine(\n",
+    "    response_mode=\"tree_summarize\", \n",
+    "    use_async=True\n",
+    ")\n",
+    "\n",
+    "summary_tool = QueryEngineTool.from_defaults(\n",
+    "    name=\"summary_tool\",\n",
+    "    query_engine = summary_query_engine,\n",
+    "    description = (\n",
+    "        \"Useful if you want to get a summary of December\"\n",
+    "    ),\n",
+    ")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "=== Calling Function ===\n",
+      "Calling function: vector_tool with args: {\"query\": \"MetaGPT comparisons with ChatDev\", \"page_numbers\": [\"8\"]}\n",
+      "=== Function Output ===\n",
+      "MetaGPT outperforms ChatDev in various aspects such as executability, running times, token usage, code statistic, productivity, and human revision cost. It achieves a higher score in executability, takes less time for software generation, uses more tokens but is more efficient in generating code lines, produces more code files and lines of code per file, and requires less human revision cost compared to ChatDev.\n"
+     ]
+    }
+   ],
+   "source": [
+    "response = llm.predict_and_call(\n",
+    "    [vector_query_tool, summary_tool],\n",
+    "    \"Give me a summary of the meetings in the month of December\", \n",
+    "    verbose = True\n",
+    ")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 24,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "{'page_label': '8', 'file_name': 'metagpt.pdf', 'file_path': 'metagpt.pdf', 'file_type': 'application/pdf', 'file_size': 16911937, 'creation_date': '2024-12-25', 'last_modified_date': '2024-12-25'}\n"
+     ]
+    }
+   ],
+   "source": [
+    "for n in response.source_nodes:\n",
+    "    print(n.metadata)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 29,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "=== Calling Function ===\n",
+      "Calling function: summary_tool with args: {\"input\": \"This paper discusses the impact of climate change on biodiversity and the environment.\"}\n",
+      "=== Function Output ===\n",
+      "This paper does not discuss the impact of climate change on biodiversity and the environment. It focuses on introducing MetaGPT, a meta-programming framework for multi-agent collaboration based on Large Language Models (LLMs), and its application in software development tasks. The roles of different agents in the development process, such as Product Manager, Architect, Project Manager, Engineer, and QA Engineer, are outlined, along with how they collaborate to generate code and ensure high-quality software solutions. The use of Standard Operating Procedures (SOPs) and structured communication interfaces is also discussed to streamline workflows and improve code generation quality.\n"
+     ]
+    }
+   ],
+   "source": [
+    "nest_asyncio.apply()\n",
+    "\n",
+    "response = llm.predict_and_call(\n",
+    "    [vector_query_tool, summary_tool],\n",
+    "    \"What is the summary of the paper?\",\n",
+    "    verbose=True\n",
+    ")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "23102024-0vMrazk-",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.12.4"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 2
+}
