@@ -1,0 +1,7 @@
+https://console.neo4j.io to validate the Aura Instance is available
+NEO4J_URI=neo4j+s://0a19aa80.databases.neo4j.io
+NEO4J_USERNAME=neo4j
+NEO4J_PASSWORD=hdyEhraSt1G8-M9hpnTnlzjIFtQt_PM69P16TdeXNAI
+NEO4J_DATABASE=neo4j
+AURA_INSTANCEID=0a19aa80
+AURA_INSTANCENAME=Instance01
